@@ -1,11 +1,11 @@
 package com.example.tote_test.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +37,13 @@ class MainActivity : AppCompatActivity() {
         }*/
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.mainContent)
+
+        navController = findNavController(R.id.mainContent)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.navHome, R.id.navGallery, R.id.navSlideshow
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -63,15 +65,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        //super.onBackPressed()
-        val navController = findNavController(R.id.mainContent)
+    /*override fun onBackPressed() {
+        val name = navController.currentDestination?.displayName ?: ""
+        val idx = name.lastIndexOf(":id/").plus(4)
 
-        navController.currentDestination?.let { Log.i("backPressed", it.navigatorName) }
-        navController.currentDestination?.let { Log.i("backPressed", it.displayName) }
+        if ((name.substring(idx).isNotEmpty()) and (name.substring(idx) != "navHome")) {
+            super.onBackPressed()
+        } else {
+            Toast.makeText(this, "12345", Toast.LENGTH_LONG).show()
 
-        Toast.makeText(this, "12345", Toast.LENGTH_LONG).show()
-    }
+            findNavController(R.id.splashContainer).popBackStack()
+            finish()
+        }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

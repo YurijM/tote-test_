@@ -43,9 +43,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private fun launchMainScreen(isSignedIn: Boolean) {
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-            //finish()
+            val intent = Intent(requireContext(), MainActivity::class.java).also {
+                startActivity(it)
+                parentFragment?.activity?.finish()
+            }
         }, 10000)
 
         /*val intent = Intent(requireContext(), MainActivity::class.java)
