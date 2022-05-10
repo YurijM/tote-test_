@@ -15,6 +15,8 @@ import com.example.tote_test.ui.main.MainActivity
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private var _binding: FragmentSplashBinding? = null
+    private var animationDuration = 2500L
+    private var animationStart = 500L
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -42,12 +44,14 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     private fun launchMainScreen(isSignedIn: Boolean) {
+        var delay = animationDuration * 2
+
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(requireContext(), MainActivity::class.java).also {
                 startActivity(it)
                 parentFragment?.activity?.finish()
             }
-        }, 10000)
+        }, delay)
 
         /*val intent = Intent(requireContext(), MainActivity::class.java)
 
@@ -63,8 +67,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             alpha = 0f
             animate()
                 .alpha(1f)
-                .setStartDelay(500)
-                .setDuration(5000)
+                .setStartDelay(animationStart)
+                .setDuration(animationDuration)
                 .start()
         }
     }
@@ -75,11 +79,11 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 alpha = 1f
                 animate()
                     .alpha(0f)
-                    .setStartDelay(500)
-                    .setDuration(5000)
+                    .setStartDelay(animationStart)
+                    .setDuration(animationDuration)
                     .start()
             }
-        }, 5000)
+        }, animationDuration)
     }
 
     override fun onDestroyView() {
