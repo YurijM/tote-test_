@@ -5,9 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tote_test.databinding.FragmentProfileBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 
 class ProfileFragment : Fragment() {
 
@@ -33,7 +42,52 @@ class ProfileFragment : Fragment() {
             textProfile.text = it
         }
 
+        val db = Firebase.database
+        val user = Firebase.auth.currentUser
+
+        val refMessage = db.getReference("message")
+
+        binding.btnSaveToDb.setOnClickListener {
+            refMessage.setValue(binding.inputMessage.text.toString())
+            binding.inputMessage.setText("")
+            /*if (user != null) {
+                // Write a message to the database
+                refMessage.setValue(user.uid)
+            } else {
+                Toast.makeText(requireContext(), "Не авторизован", Toast.LENGTH_LONG).show()
+            }*/
+        }
+
+        onChangeListener(refMessage)
+
+        // Read from the database
+        /*dbRef.addValueEventListener(object: ValueEventListener() {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<String>()
+                Toast.makeText(requireContext(), "Value is: " + value, Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Ошибка: " + error.toException(), Toast.LENGTH_LONG).show()
+            }
+
+        })*/
+
         return root
+    }
+
+    private fun onChangeListener(dbRef: DatabaseReference) {
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Toast.makeText(requireContext(), "Сообщение: " + snapshot.value.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     override fun onDestroyView() {

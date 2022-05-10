@@ -28,4 +28,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
+
+    <style name="EditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
+        <item name="android:paddingStart">@dimen/padding</item>
+    </style>
 </resources>
