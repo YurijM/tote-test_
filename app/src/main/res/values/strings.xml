@@ -14,4 +14,11 @@
     <string name="menu_gamblers">Участники</string>
     <string name="menu_rating">Рейтинг</string>
     <string name="menu_profile">Профиль</string>
+    <string name="auth">Авторизация</string>
+    <string name="signup">Регистрация</string>
+    <string name="email">email</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="remark_about_registration"><u>Нажмите здесь, чтобы зарегистрироваться</u></string>
+    <string name="enter"><u>Войти</u></string>
 </resources>

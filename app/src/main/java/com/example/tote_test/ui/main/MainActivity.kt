@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,7 +15,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tote_test.R
+import com.example.tote_test.database.UID
+import com.example.tote_test.database.initFirebase
 import com.example.tote_test.databinding.ActivityMainBinding
+import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
 import com.google.android.material.navigation.NavigationView
 import java.util.*
@@ -59,9 +61,20 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        setHeader()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.navLogin) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setHomeButtonEnabled(false)
+            }
+        }
 
+        setHeader()
         setCopyright()
+
+        APP_ACTIVITY = this
+
+        initFirebase()
+        setStartFragment()
     }
 
     private fun setHeader() {
@@ -78,7 +91,14 @@ class MainActivity : AppCompatActivity() {
         nik.text = "MU"
         val name = header.findViewById<TextView>(R.id.headerName)
         name.text = "Мягков Юрий"
+    }
 
+    private fun setStartFragment() {
+        if (UID == "null") {
+            navController.navigate(R.id.navLogin)
+        } else {
+            navController.navigate(R.id.navGamblers)
+        }
     }
 
     private fun setCopyright() {
@@ -94,19 +114,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*override fun onBackPressed() {
-        val name = navController.currentDestination?.displayName ?: ""
-        val idx = name.lastIndexOf(":id/").plus(4)
+/*override fun onBackPressed() {
+    val name = navController.currentDestination?.displayName ?: ""
+    val idx = name.lastIndexOf(":id/").plus(4)
 
-        if ((name.substring(idx).isNotEmpty()) and (name.substring(idx) != "navPrognosis")) {
-            super.onBackPressed()
-        } else {
-            Toast.makeText(this, "12345", Toast.LENGTH_LONG).show()
+    if ((name.substring(idx).isNotEmpty()) and (name.substring(idx) != "navPrognosis")) {
+        super.onBackPressed()
+    } else {
+        Toast.makeText(this, "12345", Toast.LENGTH_LONG).show()
 
-            findNavController(R.id.splashContainer).popBackStack()
-            finish()
-        }
-    }*/
+        findNavController(R.id.splashContainer).popBackStack()
+        finish()
+    }
+}*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,15 +140,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var result = true
 
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.action_exit -> finish()
             android.R.id.home -> result = super.onOptionsItemSelected(item)
         }
         return result
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.mainContent)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp(): Boolean = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 }
