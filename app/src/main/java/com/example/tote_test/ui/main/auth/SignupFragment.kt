@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.tote_test.R
 
-class RegistrationFragment : Fragment() {
+class SignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

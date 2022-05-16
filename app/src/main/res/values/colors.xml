@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="application">#00838F</color>
-    <color name="background">#89CCC6</color>
+    <!--<color name="background">#89CCC6</color>-->
+    <color name="background">#AFE1E1</color>
     <color name="slider">#D1FAF7</color>
     <!--<color name="slider">#e0f2f1</color>-->
 </resources>

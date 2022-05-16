@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/navSignup"
-        android:name="com.example.tote_test.ui.main.auth.RegistrationFragment"
+        android:name="com.example.tote_test.ui.main.auth.SignupFragment"
         android:label="@string/signup"
         tools:layout="@layout/fragment_signup" />
 </navigation>
