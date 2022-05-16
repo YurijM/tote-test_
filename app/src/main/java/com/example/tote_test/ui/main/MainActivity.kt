@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -14,9 +13,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.tote_fifa_2022.utilits.AppPreferences
 import com.example.tote_test.R
+import com.example.tote_test.database.FirebaseRepository
+import com.example.tote_test.database.REPOSITORY
 import com.example.tote_test.database.UID
-import com.example.tote_test.database.initFirebase
 import com.example.tote_test.databinding.ActivityMainBinding
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
@@ -37,19 +38,41 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
+        APP_ACTIVITY = this
 
-        /*binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
+        AppPreferences.getPreference(this)
+        AppPreferences.setAuth(false)
+
+        initialization()
+
+        setStartFragment()
+    }
+
+    private fun initialization() {
+        initFirebase()
+
         drawerLayout = binding.drawerLayout
-        navView = binding.navView
 
         navController = findNavController(R.id.mainContent)
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        initAppBar()
+
+        navView = binding.navView
+        navView.setupWithNavController(navController)
+
+        setHeader()
+        setCopyright()
+
+    }
+
+    private fun initFirebase() {
+        REPOSITORY = FirebaseRepository()
+        UID = "null"
+    }
+
+    private fun initAppBar() {
+        setSupportActionBar(binding.appBarMain.toolbar)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navGamblers,
@@ -58,8 +81,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.navProfile,
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.navLogin) {
@@ -67,14 +90,6 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setHomeButtonEnabled(false)
             }
         }
-
-        setHeader()
-        setCopyright()
-
-        APP_ACTIVITY = this
-
-        initFirebase()
-        setStartFragment()
     }
 
     private fun setHeader() {

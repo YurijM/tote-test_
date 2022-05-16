@@ -2,39 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/padding_xl"
-    android:paddingTop="@dimen/padding_xl"
-    android:id="@+id/navLogin"
     tools:context=".ui.main.auth.LoginFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginLayoutEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/email"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginInputEmail"
-            style="@style/input"
-            android:hint="@string/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginLayoutPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/loginLayoutEmail"
         android:layout_marginTop="@dimen/padding"
+        android:hint="@string/enter_password"
+        app:layout_constraintTop_toBottomOf="@id/loginLayoutEmail"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputPassword"
-            style="@style/input"
-            android:hint="@string/enter_password"
+            android:id="@+id/loginInputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -44,8 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
-        android:text="@string/enter"
         android:backgroundTint="@color/application"
+        android:text="@string/enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginLayoutPassword" />
@@ -57,7 +59,7 @@
         android:layout_marginTop="@dimen/margin"
         android:gravity="center"
         android:text="@string/remark_about_registration"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/application"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

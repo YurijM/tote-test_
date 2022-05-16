@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Totetest" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <!--<item name="colorPrimary">@color/purple_500</item>-->
+        <item name="colorPrimary">@color/application</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -10,7 +11,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!--<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
     </style>
 
@@ -22,23 +23,11 @@
     <style name="Theme.Totetest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Totetest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    
+
     <style name="SplashActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-
-    <style name="EditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
-        <item name="android:paddingStart">@dimen/padding</item>
-    </style>
-
-    <style name="input">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:backgroundTint">@color/background</item>
-        <item name="android:paddingStart">@dimen/padding</item>
-        <item name="android:inputType">textPersonName</item>
     </style>
 
 </resources>
