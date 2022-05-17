@@ -12,7 +12,6 @@ import com.example.tote_test.databinding.FragmentLoginBinding
 import com.example.tote_test.utils.APP_ACTIVITY
 
 class LoginFragment : Fragment() {
-
     private var _binding: FragmentLoginBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -30,7 +29,7 @@ class LoginFragment : Fragment() {
         val root: View = binding.root
 
         binding.txtToRegistration.setOnClickListener {
-            APP_ACTIVITY.findNavController(R.id.mainContent).navigate(R.id.navSignup)
+            APP_ACTIVITY.navController.navigate(R.id.navSignup)
         }
 
         return root
