@@ -8,6 +8,7 @@ import com.google.firebase.storage.StorageReference
 lateinit var REPOSITORY: FirebaseRepository
 lateinit var AUTH: FirebaseAuth
 lateinit var REF_DB_ROOT: DatabaseReference
+lateinit var REF_USER_ROOT: DatabaseReference
 lateinit var REF_STORAGE_ROOT: StorageReference
 lateinit var GAMBLER: GamblerModel
 lateinit var UID: String

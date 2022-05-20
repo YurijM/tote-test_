@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -21,6 +22,7 @@ import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.ActivityMainBinding
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
+import com.example.tote_test.utils.showToast
 import com.google.android.material.navigation.NavigationView
 import java.util.*
 
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialization() {
-        initFirebase()
+        initDatabase()
 
         drawerLayout = binding.drawerLayout
 
@@ -65,9 +67,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initFirebase() {
+    private fun initDatabase() {
         REPOSITORY = FirebaseRepository()
-        UID = "null"
+        //if (AppPreferences.getAuth()) {
+            REPOSITORY.initFirebase()
+        //}
     }
 
     private fun initAppBar() {
@@ -109,9 +113,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setStartFragment() {
+/*
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        val navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.main_graph)
+        navGraph.startDestination = R.id.shop
+        navController.graph = navGraph
+        binding.bottomNavView.setupWithNavController(navController)
+*/
+        val navGraph = navController.navInflater.inflate(R.navigation.main_graph)
+
         if (UID == "null") {
+            navGraph.setStartDestination(R.id.navLogin)
+            navController.graph = navGraph
             navController.navigate(R.id.navLogin)
         } else {
+            navGraph.setStartDestination(R.id.navGamblers)
+            navController.graph = navGraph
             navController.navigate(R.id.navGamblers)
         }
     }
