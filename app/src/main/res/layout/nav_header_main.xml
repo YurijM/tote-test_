@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
     android:gravity="center"
     android:orientation="horizontal"
@@ -14,7 +16,7 @@
         android:layout_height="50dp"
         android:background="@drawable/image_round"
         android:clipToOutline="true"
-        android:contentDescription="@string/nav_header_desc"
+        android:contentDescription="@string/gambler_photo"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground" />
 
@@ -29,14 +31,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="@string/nav_header_title"
+            tools:text="@string/gambler_nickname"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/headerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_header_subtitle" />
+            tools:text="@string/gambler_name" />
 
     </LinearLayout>
 

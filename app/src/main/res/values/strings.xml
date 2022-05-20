@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Тотализатор 2022</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="gambler_photo">Фото участника</string>
+    <string name="gambler_nickname">НИК</string>
+    <string name="gambler_name">Имя участника</string>
 
     <string name="action_exit">Выход</string>
     <string name="action_admin">Админка</string>
@@ -14,12 +12,17 @@
     <string name="menu_gamblers">Участники</string>
     <string name="menu_rating">Рейтинг</string>
     <string name="menu_profile">Профиль</string>
+
     <string name="auth">Авторизация</string>
     <string name="signup">Регистрация</string>
     <string name="email">email</string>
-    <string name="enter_password">Введите пароль</string>
-    <string name="confirm_password">Подтвердите пароль</string>
-    <string name="remark_about_registration"><u>Нажмите здесь, чтобы зарегистрироваться</u></string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтверждение пароля</string>
     <string name="enter">Войти</string>
     <string name="register">Зарегистрировать</string>
+    <string name="remark_about_registration"><u>Нажмите здесь, чтобы зарегистрироваться</u></string>
+
+    <string name="error_all_required">Все поля должны быть заполнены</string>
+    <string name="error_field_empty">Поле \"%1$s\" должно быть заполнено</string>
+    <string name="error_confirm_password">Пароли должны совпадать</string>
 </resources>

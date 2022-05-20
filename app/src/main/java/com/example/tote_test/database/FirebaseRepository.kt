@@ -39,6 +39,7 @@ class FirebaseRepository {
 
     fun initFirebase() {
         UID = AUTH.currentUser?.uid.toString()
+
         REF_DB_ROOT = FirebaseDatabase.getInstance().reference
         REF_USER_ROOT = REF_DB_ROOT.child(NODE_GAMBLERS).child(UID)
 
