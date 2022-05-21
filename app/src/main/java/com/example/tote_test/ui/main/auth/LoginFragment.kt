@@ -23,28 +23,22 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //FragmentManager.POP_BACK_STACK_INCLUSIVE
-        //APP_ACTIVITY.navController.clearBackStack(R.id.navLogin)
-        //APP_ACTIVITY.supportFragmentManager.popBackStack()
-
-        /*var count: Int = APP_ACTIVITY.supportFragmentManager.backStackEntryCount
-        Log.i("Stack count", count.toString())
-        while (count > 0) {
-            APP_ACTIVITY.supportFragmentManager.popBackStack()
-            count--
-            Log.i("Stack count", count.toString())
-        }*/
-
         val gamblersViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return  binding.root
+    }
 
-        binding.txtToRegistration.setOnClickListener {
-            APP_ACTIVITY.navController.navigate(R.id.navSignup)
+    override fun onStart() {
+        super.onStart()
+
+        binding.btnLogin.setOnClickListener {
+            //APP_ACTIVITY.navController.navigate(R.id.action_navLogin_to_navGamblers)
         }
 
-        return root
+        binding.txtToRegistration.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_navLogin_to_navSignup)
+        }
     }
 
     override fun onDestroyView() {

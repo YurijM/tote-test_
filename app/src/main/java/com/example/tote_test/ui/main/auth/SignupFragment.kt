@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ReportFragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.tote_fifa_2022.utilits.AppPreferences
 import com.example.tote_test.R
+import com.example.tote_test.database.EMAIL
+import com.example.tote_test.database.PASSWORD
+import com.example.tote_test.database.REPOSITORY
 import com.example.tote_test.databinding.FragmentSignupBinding
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.showToast
@@ -16,7 +21,6 @@ import com.google.android.material.textfield.TextInputLayout
 
 class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var vmSignup: SignupViewModel
@@ -58,14 +62,23 @@ class SignupFragment : Fragment() {
             val confirmPassword = binding.signupInputConfirmPassword.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-                val error = comparePassword(password, confirmPassword)
+                if (comparePassword(password, confirmPassword)) {
+                    EMAIL = email
+                    PASSWORD = password
 
-                if (!error) {
-                    APP_ACTIVITY.navController.navigate(R.id.navGamblers)
+                    signup()
                 }
             } else {
                 showToast(getString(R.string.error_all_required))
             }
+        }
+    }
+
+    private fun signup() {
+        vmSignup.signup {
+            AppPreferences.setAuth(true)
+
+            APP_ACTIVITY.navController.navigate(R.id.action_navSignup_to_navGamblers)
         }
     }
 
@@ -77,50 +90,15 @@ class SignupFragment : Fragment() {
         }
     }
 
-    /*private fun checkFields(email: String, password: String, confirmPassword: String): Boolean {
-        var error = false
-
-        val layoutEmail = binding.signupLayoutEmail
-        if (email.isEmpty()) {
-            layoutEmail.error = getString(R.string.error_field_empty, getString(R.string.email))
-            error = true
-        } else
-            layoutEmail.error = ""
-
-        val layoutPassword = binding.signupLayoutPassword
-        if (password.isEmpty()) {
-            layoutPassword.error = getString(R.string.error_field_empty, getString(R.string.password))
-            error = true
-        } else
-            layoutPassword.error = ""
-
-        val layoutConfirmPassword = binding.signupLayoutConfirmPassword
-        if (confirmPassword.isEmpty()) {
-            layoutConfirmPassword.error = getString(R.string.error_field_empty, getString(R.string.confirm_password))
-            error = true
-        } else
-            layoutConfirmPassword.error = ""
-
-        if (error) {
-            showToast(getString(R.string.error_all_required))
-        } else {
-            error = comparePassword(password, confirmPassword)
-        }
-
-        return error
-    }*/
-
     private fun comparePassword(password: String, confirmPassword: String): Boolean {
-        var error = false
+        var result = true
 
         if (password != confirmPassword) {
-            binding.signupLayoutPassword.error = getString(R.string.error_confirm_password)
             binding.signupLayoutConfirmPassword.error = getString(R.string.error_confirm_password)
-
-            error = true
+            result = false
         }
 
-        return error
+        return result
     }
 
     override fun onDestroy() {

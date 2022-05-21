@@ -33,12 +33,25 @@
         android:label="@string/auth"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/navSignup" />
+            android:id="@+id/action_navLogin_to_navGamblers"
+            app:destination="@id/navGamblers"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_navLogin_to_navSignup"
+            app:destination="@id/navSignup"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/navSignup"
         android:name="com.example.tote_test.ui.main.auth.SignupFragment"
         android:label="@string/signup"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_navSignup_to_navGamblers"
+            app:destination="@id/navGamblers"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/main_graph" />
+    </fragment>
 </navigation>
