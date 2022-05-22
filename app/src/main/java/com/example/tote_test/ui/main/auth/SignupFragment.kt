@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ReportFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tote_fifa_2022.utilits.AppPreferences
 import com.example.tote_test.R
 import com.example.tote_test.database.EMAIL
+import com.example.tote_test.database.MIN_LENGTH_PASSWORD
 import com.example.tote_test.database.PASSWORD
-import com.example.tote_test.database.REPOSITORY
 import com.example.tote_test.databinding.FragmentSignupBinding
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.showToast
@@ -46,7 +45,9 @@ class SignupFragment : Fragment() {
 
         binding.signupInputPassword.addTextChangedListener {
             if (it != null) {
-                checkFieldEmpty(it, binding.signupLayoutPassword, getString(R.string.password))
+                if (checkFieldEmpty(it, binding.signupLayoutPassword, getString(R.string.password))) {
+                    checkMinLength(it, binding.signupLayoutPassword, getString(R.string.password))
+                }
             }
         }
 
@@ -74,20 +75,40 @@ class SignupFragment : Fragment() {
         }
     }
 
+    private fun checkMinLength(input: Editable,
+                               layout: TextInputLayout,
+                               fieldName: String): Boolean {
+        var result = true
+
+        if (input.length < 6) {
+            layout.error = getString(R.string.error_min_length, fieldName, MIN_LENGTH_PASSWORD)
+            result = false
+        }
+
+        return result
+    }
+
     private fun signup() {
         vmSignup.signup {
             AppPreferences.setAuth(true)
 
-            APP_ACTIVITY.navController.navigate(R.id.action_navSignup_to_navGamblers)
+            APP_ACTIVITY.navController.navigate(R.id.action_navSignup_to_navProfile)
         }
     }
 
-    private fun checkFieldEmpty(input: Editable, layout: TextInputLayout, fieldName: String) {
+    private fun checkFieldEmpty(input: Editable,
+                                layout: TextInputLayout,
+                                fieldName: String): Boolean {
+        var result = true
+
         if (input.isEmpty()) {
             layout.error = getString(R.string.error_field_empty, fieldName)
-        } else {
+            result = false
+        } else{
             layout.error = ""
         }
+
+        return result
     }
 
     private fun comparePassword(password: String, confirmPassword: String): Boolean {

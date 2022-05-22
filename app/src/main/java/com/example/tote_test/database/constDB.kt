@@ -8,13 +8,14 @@ import com.google.firebase.storage.StorageReference
 lateinit var REPOSITORY: FirebaseRepository
 lateinit var AUTH: FirebaseAuth
 lateinit var REF_DB_ROOT: DatabaseReference
-lateinit var REF_USER_ROOT: DatabaseReference
 lateinit var REF_STORAGE_ROOT: StorageReference
-lateinit var GAMBLER: GamblerModel
 lateinit var UID: String
+
+const val MIN_LENGTH_PASSWORD = 6
 
 lateinit var EMAIL: String
 lateinit var PASSWORD: String
+lateinit var NICKNAME: String
 
 const val FOLDER_GAMBLER_PHOTO = "gamblerPhotos"
 

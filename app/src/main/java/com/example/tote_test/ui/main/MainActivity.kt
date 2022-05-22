@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,6 +20,7 @@ import com.example.tote_test.database.FirebaseRepository
 import com.example.tote_test.database.REPOSITORY
 import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.ActivityMainBinding
+import com.example.tote_test.ui.main.auth.SignupViewModel
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
 import com.google.android.material.navigation.NavigationView
@@ -31,9 +33,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var vmMain: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        vmMain = ViewModelProvider(this)[MainViewModel::class.java]
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -170,7 +175,11 @@ class MainActivity : AppCompatActivity() {
         var result = true
 
         when (item.itemId) {
-            R.id.action_exit -> finish()
+            R.id.action_exit -> {
+                vmMain.signOut()
+                AppPreferences.setAuth(false)
+                finish()
+            }
             android.R.id.home -> result = super.onOptionsItemSelected(item)
         }
         return result

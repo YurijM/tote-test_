@@ -14,7 +14,6 @@ import com.example.tote_test.utils.APP_ACTIVITY
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 

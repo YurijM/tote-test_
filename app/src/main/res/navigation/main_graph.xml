@@ -39,9 +39,7 @@
             app:popUpTo="@id/main_graph" />
         <action
             android:id="@+id/action_navLogin_to_navSignup"
-            app:destination="@id/navSignup"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/main_graph" />
+            app:destination="@id/navSignup" />
     </fragment>
     <fragment
         android:id="@+id/navSignup"
@@ -49,9 +47,9 @@
         android:label="@string/signup"
         tools:layout="@layout/fragment_signup" >
         <action
-            android:id="@+id/action_navSignup_to_navGamblers"
-            app:destination="@id/navGamblers"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/main_graph" />
+            android:id="@+id/action_navSignup_to_navProfile"
+            app:destination="@id/navProfile"
+            app:popUpTo="@id/navProfile"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

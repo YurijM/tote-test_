@@ -24,5 +24,6 @@
 
     <string name="error_all_required">Все поля должны быть заполнены</string>
     <string name="error_field_empty">Поле \"%1$s\" должно быть заполнено</string>
+    <string name="error_min_length">Длина поля \"%1$s\" должна быть не меньше %2$d</string>
     <string name="error_confirm_password">Пароли должны совпадать</string>
 </resources>
