@@ -49,7 +49,6 @@
         <action
             android:id="@+id/action_navSignup_to_navProfile"
             app:destination="@id/navProfile"
-            app:popUpTo="@id/navProfile"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/main_graph" />
     </fragment>
 </navigation>

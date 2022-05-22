@@ -23,6 +23,7 @@ import com.example.tote_test.databinding.ActivityMainBinding
 import com.example.tote_test.ui.main.auth.SignupViewModel
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
+import com.example.tote_test.utils.showToast
 import com.google.android.material.navigation.NavigationView
 import java.util.*
 
@@ -126,13 +127,13 @@ class MainActivity : AppCompatActivity() {
             navGraph.setStartDestination(R.id.navLogin)
             navController.graph = navGraph
             //navController.navigate(R.id.navLogin)
-        } else {
+        } /*else {
             navGraph.setStartDestination(R.id.navGamblers)
             navController.graph = navGraph
             //navController.navigate(R.id.navGamblers)
 
             AppPreferences.setAuth(true)
-        }
+        }*/
     }
 
     private fun setCopyright() {

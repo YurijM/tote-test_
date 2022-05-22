@@ -67,8 +67,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/login_logo_size"
+        android:layout_height="@dimen/login_logo_size"
         android:layout_marginTop="@dimen/margin_lg"
         android:contentDescription="@string/app_name"
         android:src="@drawable/cup"

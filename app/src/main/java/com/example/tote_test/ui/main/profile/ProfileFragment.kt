@@ -35,30 +35,6 @@ class ProfileFragment : Fragment() {
             ViewModelProvider(this)[ProfileViewModel::class.java]
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textProfile: TextView = binding.textProfile
-        profileViewModel.text.observe(viewLifecycleOwner) {
-            textProfile.text = it
-        }
-
-        val db = Firebase.database
-        val user = Firebase.auth.currentUser
-
-        val refMessage = db.getReference("message")
-
-        binding.btnSaveToDb.setOnClickListener {
-            refMessage.setValue(binding.inputMessage.text.toString())
-            binding.inputMessage.setText("")
-            /*if (user != null) {
-                // Write a message to the database
-                refMessage.setValue(user.uid)
-            } else {
-                Toast.makeText(requireContext(), "Не авторизован", Toast.LENGTH_LONG).show()
-            }*/
-        }
-
-        onChangeListener(refMessage)
 
         // Read from the database
         /*dbRef.addValueEventListener(object: ValueEventListener() {
@@ -76,7 +52,7 @@ class ProfileFragment : Fragment() {
 
         })*/
 
-        return root
+        return binding.root
     }
 
     private fun onChangeListener(dbRef: DatabaseReference) {

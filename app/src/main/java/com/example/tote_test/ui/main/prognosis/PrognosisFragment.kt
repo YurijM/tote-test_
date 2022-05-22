@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tote_test.databinding.FragmentPrognosisBinding
+import com.example.tote_test.utils.APP_ACTIVITY
 
 class PrognosisFragment : Fragment() {
 

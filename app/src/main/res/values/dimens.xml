@@ -21,5 +21,6 @@
     <dimen name="text_size_lg">18sp</dimen>
     <dimen name="text_size_xl">24sp</dimen>
     <dimen name="img_size_author">28dp</dimen>
-    <dimen name="height_footer">36dp</dimen> <!--img_size_author + 2 * padding_sm-->
+    <dimen name="login_logo_size">150dp</dimen> <!--img_size_author + 2 * padding_sm-->
+    <dimen name="height_footer">36dp</dimen>
 </resources>
