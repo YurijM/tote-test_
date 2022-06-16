@@ -4,16 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.tote_test.R
+import com.example.tote_test.database.FirebaseRepository
+import com.example.tote_test.database.REPOSITORY
+import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.FragmentSplashBinding
 import com.example.tote_test.ui.main.MainActivity
+import com.example.tote_test.utils.GAMBLER
+import com.example.tote_test.utils.START_FRAGMENT
+import com.example.tote_test.utils.checkProfile
 
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
+    private lateinit var vmSplash: SplashViewModel
     private var _binding: FragmentSplashBinding? = null
     private var animationDuration = 2500L
     private var animationStart = 500L
@@ -22,19 +29,20 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    /*override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSplashBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }*/
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentSplashBinding.bind(view)
+
+        initDatabase()
+
+        vmSplash = ViewModelProvider(this)[SplashViewModel::class.java]
+        vmSplash.getGambler()
+        vmSplash.currentGambler.observe(viewLifecycleOwner, Observer {
+            GAMBLER = it
+
+            START_FRAGMENT = getStartFragment()
+        })
 
         renderAnimations()
 
@@ -43,11 +51,30 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         launchMainScreen(false)
     }
 
+    private fun initDatabase() {
+        REPOSITORY = FirebaseRepository()
+        REPOSITORY.initFirebase()
+    }
+
+    private fun getStartFragment(): Int {
+        val idLayout: Int
+
+        if (UID == "null") {
+            idLayout = R.id.navLogin
+        } else if (!checkProfile()) {
+            idLayout = R.id.navProfile
+        } else {
+            idLayout = R.id.navGamblers
+        }
+
+        return idLayout
+    }
+
     private fun launchMainScreen(isSignedIn: Boolean) {
-        var delay = animationDuration * 2
+        val delay = animationDuration * 2
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(requireContext(), MainActivity::class.java).also {
+            Intent(requireContext(), MainActivity::class.java).also {
                 startActivity(it)
                 parentFragment?.activity?.finish()
             }

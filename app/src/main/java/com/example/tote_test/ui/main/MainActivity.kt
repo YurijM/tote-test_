@@ -1,13 +1,12 @@
 package com.example.tote_test.ui.main
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -18,16 +17,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tote_fifa_2022.utilits.AppPreferences
 import com.example.tote_test.R
-import com.example.tote_test.database.FirebaseRepository
-import com.example.tote_test.database.REPOSITORY
-import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.ActivityMainBinding
-import com.example.tote_test.utils.APP_ACTIVITY
-import com.example.tote_test.utils.START_YEAR
+import com.example.tote_test.utils.*
 import com.google.android.material.navigation.NavigationView
-import androidx.lifecycle.Observer
-import com.example.tote_test.utils.GAMBLER
-import com.example.tote_test.utils.showToast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -56,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialization() {
-        initDatabase()
-
         drawerLayout = binding.drawerLayout
 
         navController = findNavController(R.id.mainContent)
@@ -67,22 +57,29 @@ class MainActivity : AppCompatActivity() {
         navView = binding.navView
         navView.setupWithNavController(navController)
 
-        vmMain.getGambler()
-        vmMain.currentGambler.observe(this, Observer {
-            GAMBLER = it
-            setHeader()
-
-            setStartFragment()
-        })
+        setHeader()
 
         setCopyright()
+
+        setStartFragment()
     }
 
-    private fun initDatabase() {
-        REPOSITORY = FirebaseRepository()
-        //if (AppPreferences.getAuth()) {
-        REPOSITORY.initFirebase()
-        //}
+    private fun setStartFragment() {
+        //Это вариант программной установки стартового фрагмента
+        val navGraph = navController.navInflater.inflate(R.navigation.main_graph)
+
+        navGraph.setStartDestination(START_FRAGMENT)
+        navController.graph = navGraph
+
+        if (START_FRAGMENT == R.id.navProfile) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setHomeButtonEnabled(false)
+
+            AppPreferences.setAuth(true)
+
+            showToast("Для доступа все поля профиля должны быть заполнены")
+        } else if (START_FRAGMENT == R.id.navGamblers)
+            AppPreferences.setAuth(true)
     }
 
     private fun initAppBar() {
@@ -93,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navGamblers,
                 R.id.navRating,
                 R.id.navPrognosis,
-                R.id.navProfile,
+                //R.id.navProfile,
             ), drawerLayout
         )
 
@@ -101,7 +98,6 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.navLogin
-                || destination.id == R.id.navStart
                 || (destination.id == R.id.navProfile && !checkProfile())
             ) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -113,17 +109,10 @@ class MainActivity : AppCompatActivity() {
     private fun setHeader() {
         val header = navView.getHeaderView(0)
 
-        /*header.setOnClickListener {
+        header.setOnClickListener {
            navController.navigate(R.id.navProfile)
            drawerLayout.closeDrawer(GravityCompat.START)
-       }*/
-
-        /*val image = header.findViewById<ImageView>(R.id.headerPhoto)
-        image.setImageResource(R.drawable.mu)
-        val nik = header.findViewById<TextView>(R.id.headerNik)
-        nik.text = "MU"
-        val name = header.findViewById<TextView>(R.id.headerName)
-        name.text = "Мягков Юрий"*/
+       }
 
         val image = header.findViewById<ImageView>(R.id.headerPhoto)
         image.setImageResource(R.drawable.user_white)
@@ -135,11 +124,24 @@ class MainActivity : AppCompatActivity() {
         name.text = "${GAMBLER.family} ${GAMBLER.name}"
     }
 
-    private fun setStartFragment() {
-        /*if (UID == "null")
+    private fun setCopyright() {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val copyright = binding.appBarMain.mainFooter.copyrightYear
+
+        if (year != START_YEAR) {
+            val strYear = "$START_YEAR-$year"
+            copyright.text = strYear
+        } else {
+            copyright.text = START_YEAR.toString()
+        }
+    }
+
+/*private fun setStartFragment() {
+    *//*if (UID == "null")
             navController.navigate(R.id.navLogin)
         else
-            navController.navigate(R.id.navGamblers)*/
+            navController.navigate(R.id.navGamblers)*//*
 
         //Это вариант программной установки стартового фрагмента
         val navGraph = navController.navInflater.inflate(R.navigation.main_graph)
@@ -163,11 +165,11 @@ class MainActivity : AppCompatActivity() {
             navController.graph = navGraph
 
             AppPreferences.setAuth(true)
-        }
+        }*/
 
-        /*REF_DB_ROOT.child(NODE_GAMBLERS).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                *//*val value = snapshot.getValue(GamblerModel::class.java) ?: GamblerModel()
+/*REF_DB_ROOT.child(NODE_GAMBLERS).addValueEventListener(object : ValueEventListener {
+    override fun onDataChange(snapshot: DataSnapshot) {
+        *//*val value = snapshot.getValue(GamblerModel::class.java) ?: GamblerModel()
                     showToast(value.nickname)*//*
                     Log.i("qwerty", snapshot.value.toString())
 
@@ -182,55 +184,42 @@ class MainActivity : AppCompatActivity() {
 
                 }
             })*/
-        /*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })*/
-        /*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })*/
-
-        /*else {
-                navGraph.setStartDestination(R.id.navGamblers)
-                navController.graph = navGraph
-                //navController.navigate(R.id.navGamblers)
-
-                AppPreferences.setAuth(true)
-            }*/
+/*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addListenerForSingleValueEvent(object : ValueEventListener {
+    override fun onDataChange(snapshot: DataSnapshot) {
+        setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
     }
 
-    private fun checkProfile(): Boolean =
-        !(GAMBLER.nickname.isEmpty()
-                || GAMBLER.name.isEmpty()
-                || GAMBLER.family.isEmpty()
-                || GAMBLER.gender.isEmpty()
-                || GAMBLER.photoUrl.isEmpty()
-                || GAMBLER.photoUrl == "empty"
-                )
+    override fun onCancelled(error: DatabaseError) {
 
-    private fun setCopyright() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val copyright = binding.appBarMain.mainFooter.copyrightYear
-
-        if (year != START_YEAR) {
-            val strYear = "$START_YEAR-$year"
-            copyright.text = strYear
-        } else {
-            copyright.text = START_YEAR.toString()
-        }
     }
+})*/
+/*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addValueEventListener(object : ValueEventListener {
+    override fun onDataChange(snapshot: DataSnapshot) {
+        setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
+    }
+
+    override fun onCancelled(error: DatabaseError) {
+
+    }
+})*/
+
+/*else {
+        navGraph.setStartDestination(R.id.navGamblers)
+        navController.graph = navGraph
+        //navController.navigate(R.id.navGamblers)
+
+        AppPreferences.setAuth(true)
+    }*/
+//}
+
+/*private fun checkProfile(): Boolean =
+    !(GAMBLER.nickname.isEmpty()
+            || GAMBLER.name.isEmpty()
+            || GAMBLER.family.isEmpty()
+            || GAMBLER.gender.isEmpty()
+            || GAMBLER.photoUrl.isEmpty()
+            || GAMBLER.photoUrl == "empty"
+            )*/
 
 /*override fun onBackPressed() {
     val name = navController.currentDestination?.displayName ?: ""

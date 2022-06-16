@@ -65,7 +65,7 @@ class FirebaseRepository {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val gambler: GamblerModel = snapshot.getValue(GamblerModel::class.java) ?: GamblerModel()
 
-                liveData.value = gambler
+                liveData.postValue(gambler)
             }
 
             override fun onCancelled(error: DatabaseError) {

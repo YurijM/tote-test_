@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/navStart">
+    app:startDestination="@id/navGamblers">
 
     <fragment
         android:id="@+id/navGamblers"
@@ -52,8 +52,4 @@
             app:destination="@id/navProfile"
             app:popUpTo="@id/main_graph" />
     </fragment>
-    <fragment
-        android:id="@+id/navStart"
-        android:name="com.example.tote_test.ui.main.start.StartFragment"
-        tools:layout="@layout/fragment_start" />
 </navigation>
