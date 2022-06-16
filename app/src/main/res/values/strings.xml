@@ -21,6 +21,8 @@
     <string name="register">Зарегистрировать</string>
     <string name="remark_about_registration"><u>Нажмите здесь, чтобы зарегистрироваться</u></string>
 
+    <string name="save">Сохранить</string>
+
     <string name="error_all_required">Все поля должны быть заполнены</string>
     <string name="error_field_empty">Поле \"%1$s\" должно быть заполнено</string>
     <string name="error_min_length">Длина поля \"%1$s\" должна быть не меньше %2$d</string>
@@ -30,4 +32,6 @@
     <string name="family">Фамилия</string>
     <string name="name">Имя</string>
     <string name="gender">Пол</string>
+    <string name="man">м</string>
+    <string name="woman">ж</string>
 </resources>
