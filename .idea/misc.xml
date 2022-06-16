@@ -12,6 +12,7 @@
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/drawable/side_nav_bar.xml" value="0.2455" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/drawable/splash.xml" value="0.2455" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/drawable/user.xml" value="0.2305" />
+        <entry key="..\:/Kotlin/tote-test/app/src/main/res/drawable/user_white.xml" value="0.2305" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/activity_main.xml" value="0.17685185185185184" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
@@ -27,6 +28,7 @@
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/fragment_rating.xml" value="0.34629629629629627" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/fragment_signup.xml" value="0.34629629629629627" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/fragment_splash.xml" value="0.20416666666666666" />
+        <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/fragment_start.xml" value="0.36666666666666664" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/menu/activity_main_drawer.xml" value="0.36102564102564105" />
         <entry key="..\:/Kotlin/tote-test/app/src/main/res/menu/main.xml" value="0.36666666666666664" />

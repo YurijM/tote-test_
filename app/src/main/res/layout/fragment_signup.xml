@@ -8,53 +8,43 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signupLayoutEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/LayoutTextInput"
         android:hint="@string/email"
-        app:errorEnabled="true"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signupInputEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextInput"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signupLayoutPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/LayoutTextInput"
         android:hint="@string/password"
         app:layout_constraintTop_toBottomOf="@id/signupLayoutEmail"
-        app:errorEnabled="true"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signupInputPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            style="@style/TextInput" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signupLayoutConfirmPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/LayoutTextInput"
         android:hint="@string/confirm_password"
         app:layout_constraintTop_toBottomOf="@id/signupLayoutPassword"
-        app:errorEnabled="true"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signupInputConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextInput"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -63,6 +53,7 @@
         android:id="@+id/btnSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xl"
         android:backgroundTint="@color/application"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"

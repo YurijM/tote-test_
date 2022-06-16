@@ -1,6 +1,5 @@
 package com.example.tote_test.database
 
-import com.example.tote_test.models.GamblerModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference

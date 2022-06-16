@@ -1,5 +1,7 @@
 package com.example.tote_test.ui.main.auth
 
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -81,8 +83,11 @@ class SignupFragment : Fragment() {
         var result = true
 
         if (input.length < 6) {
+            layout.isErrorEnabled = true
             layout.error = getString(R.string.error_min_length, fieldName, MIN_LENGTH_PASSWORD)
             result = false
+        } else {
+            layout.isErrorEnabled = false
         }
 
         return result
@@ -102,10 +107,11 @@ class SignupFragment : Fragment() {
         var result = true
 
         if (input.isEmpty()) {
+            layout.isErrorEnabled = true
             layout.error = getString(R.string.error_field_empty, fieldName)
             result = false
         } else{
-            layout.error = ""
+            layout.isErrorEnabled = false
         }
 
         return result
@@ -115,8 +121,11 @@ class SignupFragment : Fragment() {
         var result = true
 
         if (password != confirmPassword) {
+            binding.signupLayoutConfirmPassword.isErrorEnabled = true
             binding.signupLayoutConfirmPassword.error = getString(R.string.error_confirm_password)
             result = false
+        } else {
+            binding.signupLayoutConfirmPassword.isErrorEnabled = false
         }
 
         return result

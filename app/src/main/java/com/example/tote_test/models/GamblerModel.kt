@@ -1,6 +1,6 @@
 package com.example.tote_test.models
 
-data class GamblerModel (
+class GamblerModel (
     val id: String = "",
     val nickname: String = "",
     val family: String = "",

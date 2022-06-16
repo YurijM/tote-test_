@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/navGamblers">
+    app:startDestination="@id/navStart">
 
     <fragment
         android:id="@+id/navGamblers"
@@ -39,7 +39,8 @@
             app:popUpTo="@id/main_graph" />
         <action
             android:id="@+id/action_navLogin_to_navSignup"
-            app:destination="@id/navSignup" />
+            app:destination="@id/navSignup"
+            app:popUpTo="@id/navLogin" />
     </fragment>
     <fragment
         android:id="@+id/navSignup"
@@ -51,4 +52,8 @@
             app:destination="@id/navProfile"
             app:popUpTo="@id/main_graph" />
     </fragment>
+    <fragment
+        android:id="@+id/navStart"
+        android:name="com.example.tote_test.ui.main.start.StartFragment"
+        tools:layout="@layout/fragment_start" />
 </navigation>

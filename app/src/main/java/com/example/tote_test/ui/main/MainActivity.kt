@@ -1,6 +1,8 @@
 package com.example.tote_test.ui.main
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -20,11 +22,12 @@ import com.example.tote_test.database.FirebaseRepository
 import com.example.tote_test.database.REPOSITORY
 import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.ActivityMainBinding
-import com.example.tote_test.ui.main.auth.SignupViewModel
 import com.example.tote_test.utils.APP_ACTIVITY
 import com.example.tote_test.utils.START_YEAR
-import com.example.tote_test.utils.showToast
 import com.google.android.material.navigation.NavigationView
+import androidx.lifecycle.Observer
+import com.example.tote_test.utils.GAMBLER
+import com.example.tote_test.utils.showToast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,10 +42,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vmMain = ViewModelProvider(this)[MainViewModel::class.java]
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        vmMain = ViewModelProvider(this)[MainViewModel::class.java]
 
         APP_ACTIVITY = this
 
@@ -64,9 +67,15 @@ class MainActivity : AppCompatActivity() {
         navView = binding.navView
         navView.setupWithNavController(navController)
 
-        setHeader()
+        vmMain.getGambler()
+        vmMain.currentGambler.observe(this, Observer {
+            GAMBLER = it
+            setHeader()
+
+            setStartFragment()
+        })
+
         setCopyright()
-        setStartFragment()
     }
 
     private fun initDatabase() {
@@ -91,7 +100,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.navLogin) {
+            if (destination.id == R.id.navLogin
+                || destination.id == R.id.navStart
+                || (destination.id == R.id.navProfile && !checkProfile())
+            ) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setHomeButtonEnabled(false)
             }
@@ -106,12 +118,21 @@ class MainActivity : AppCompatActivity() {
            drawerLayout.closeDrawer(GravityCompat.START)
        }*/
 
-        val image = header.findViewById<ImageView>(R.id.headerPhoto)
+        /*val image = header.findViewById<ImageView>(R.id.headerPhoto)
         image.setImageResource(R.drawable.mu)
         val nik = header.findViewById<TextView>(R.id.headerNik)
         nik.text = "MU"
         val name = header.findViewById<TextView>(R.id.headerName)
-        name.text = "Мягков Юрий"
+        name.text = "Мягков Юрий"*/
+
+        val image = header.findViewById<ImageView>(R.id.headerPhoto)
+        image.setImageResource(R.drawable.user_white)
+
+        val nik = header.findViewById<TextView>(R.id.headerNik)
+        nik.text = GAMBLER.nickname
+
+        val name = header.findViewById<TextView>(R.id.headerName)
+        name.text = "${GAMBLER.family} ${GAMBLER.name}"
     }
 
     private fun setStartFragment() {
@@ -127,14 +148,76 @@ class MainActivity : AppCompatActivity() {
             navGraph.setStartDestination(R.id.navLogin)
             navController.graph = navGraph
             //navController.navigate(R.id.navLogin)
-        } /*else {
-            navGraph.setStartDestination(R.id.navGamblers)
+        } else if (!checkProfile()) {
+            navGraph.setStartDestination(R.id.navProfile)
             navController.graph = navGraph
-            //navController.navigate(R.id.navGamblers)
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setHomeButtonEnabled(false)
 
             AppPreferences.setAuth(true)
-        }*/
+
+            showToast("Для доступа все поля профиля должны быть заполнены")
+        } else {
+            navGraph.setStartDestination(R.id.navGamblers)
+            navController.graph = navGraph
+
+            AppPreferences.setAuth(true)
+        }
+
+        /*REF_DB_ROOT.child(NODE_GAMBLERS).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                *//*val value = snapshot.getValue(GamblerModel::class.java) ?: GamblerModel()
+                    showToast(value.nickname)*//*
+                    Log.i("qwerty", snapshot.value.toString())
+
+                    val gambler: List<GamblerModel> = snapshot.children.map { it ->
+                        it.getValue(GamblerModel::class.java)!!
+                    }
+
+                    Log.i("qwerty", gambler.toString())
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })*/
+        /*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })*/
+        /*REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                setHeader(snapshot.getValue(GamblerModel::class.java) ?: GamblerModel())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })*/
+
+        /*else {
+                navGraph.setStartDestination(R.id.navGamblers)
+                navController.graph = navGraph
+                //navController.navigate(R.id.navGamblers)
+
+                AppPreferences.setAuth(true)
+            }*/
     }
+
+    private fun checkProfile(): Boolean =
+        !(GAMBLER.nickname.isEmpty()
+                || GAMBLER.name.isEmpty()
+                || GAMBLER.family.isEmpty()
+                || GAMBLER.gender.isEmpty()
+                || GAMBLER.photoUrl.isEmpty()
+                || GAMBLER.photoUrl == "empty"
+                )
 
     private fun setCopyright() {
         val c = Calendar.getInstance()
