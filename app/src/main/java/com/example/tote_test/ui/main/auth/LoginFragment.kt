@@ -1,12 +1,10 @@
 package com.example.tote_test.ui.main.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.tote_test.R
 import com.example.tote_test.databinding.FragmentLoginBinding
@@ -22,7 +20,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val gamblersViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        //val gamblersViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return  binding.root

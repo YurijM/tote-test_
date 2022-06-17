@@ -26,7 +26,13 @@
         android:id="@+id/navProfile"
         android:name="com.example.tote_test.ui.main.profile.ProfileFragment"
         android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navProfile_to_navGamblers"
+            app:destination="@id/navGamblers"
+            app:popUpTo="@id/navGamblers"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/navLogin"
         android:name="com.example.tote_test.ui.main.auth.LoginFragment"

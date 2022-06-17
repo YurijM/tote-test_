@@ -38,11 +38,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
         vmSplash = ViewModelProvider(this)[SplashViewModel::class.java]
         vmSplash.getGambler()
-        vmSplash.currentGambler.observe(viewLifecycleOwner, Observer {
-            GAMBLER = it
 
-            START_FRAGMENT = getStartFragment()
-        })
+        observeGambler()
 
         renderAnimations()
 
@@ -56,12 +53,17 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         REPOSITORY.initFirebase()
     }
 
+    private fun observeGambler() = vmSplash.currentGambler.observe(viewLifecycleOwner) {
+        GAMBLER = it
+        START_FRAGMENT = getStartFragment()
+    }
+
     private fun getStartFragment(): Int {
         val idLayout: Int
 
         if (UID == "null") {
             idLayout = R.id.navLogin
-        } else if (!checkProfile()) {
+        } else if (!checkProfile(GAMBLER)) {
             idLayout = R.id.navProfile
         } else {
             idLayout = R.id.navGamblers

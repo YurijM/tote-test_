@@ -1,10 +1,10 @@
 package com.example.tote_test.models
 
 class GamblerModel (
-    val id: String = "",
-    val nickname: String = "",
-    val family: String = "",
-    val name: String = "",
-    val gender: String = "",
-    val photoUrl: String = "empty"  //Для Picasso нужно, чтобы имелось какое-то значение пока игрок ещё не добавлен
+    var id: String = "",
+    var nickname: String = "",
+    var family: String = "",
+    var name: String = "",
+    var gender: String = "",
+    var photoUrl: String = "empty"  //Для Picasso нужно, чтобы имелось какое-то значение пока игрок ещё не добавлен
 )

@@ -3,6 +3,7 @@ package com.example.tote_test.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -57,11 +58,18 @@ class MainActivity : AppCompatActivity() {
         navView = binding.navView
         navView.setupWithNavController(navController)
 
-        setHeader()
+        vmMain.getGambler()
+
+        observeGambler()
 
         setCopyright()
 
         setStartFragment()
+    }
+
+    private fun observeGambler() = vmMain.currentGambler.observe(this) {
+        GAMBLER = it
+        setHeader()
     }
 
     private fun setStartFragment() {
@@ -98,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.navLogin
-                || (destination.id == R.id.navProfile && !checkProfile())
+                || (destination.id == R.id.navProfile && !checkProfile(GAMBLER))
             ) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setHomeButtonEnabled(false)

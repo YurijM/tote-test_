@@ -2,7 +2,6 @@ package com.example.tote_test.database
 
 import androidx.lifecycle.MutableLiveData
 import com.example.tote_test.models.GamblerModel
-import com.example.tote_test.utils.GAMBLER
 import com.example.tote_test.utils.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -23,11 +22,11 @@ class FirebaseRepository {
 
                 val dataMap = mutableMapOf<String, Any>()
                 dataMap[CHILD_ID] = UID
-                dataMap[CHILD_NICKNAME] = ""
-                dataMap[CHILD_FAMILY] = ""
-                dataMap[CHILD_NAME] = ""
-                dataMap[CHILD_GENDER] = ""
-                dataMap[CHILD_PHOTO_URL] = ""
+                dataMap[GAMBLER_NICKNAME] = ""
+                dataMap[GAMBLER_FAMILY] = ""
+                dataMap[GAMBLER_NAME] = ""
+                dataMap[GAMBLER_GENDER] = ""
+                dataMap[GAMBLER_PHOTO_URL] = ""
 
                 REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).updateChildren(dataMap)
                     .addOnCompleteListener { onSuccess() }
@@ -60,6 +59,10 @@ class FirebaseRepository {
         REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
     }
 
+    /*
+    Gamblers Repository
+     */
+
     fun getGambler(liveData: MutableLiveData<GamblerModel>) {
         REF_DB_ROOT.child(NODE_GAMBLERS).child(UID).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -72,5 +75,20 @@ class FirebaseRepository {
 
             }
         })
+    }
+
+    fun updateGambler(gambler: GamblerModel, onSuccess: () -> Unit) {
+        val node = REF_DB_ROOT.child(NODE_GAMBLERS).child(UID)
+
+        val mapGambler = hashMapOf<String, Any>()
+        mapGambler[GAMBLER_NICKNAME] = gambler.nickname
+        mapGambler[GAMBLER_FAMILY] = gambler.family
+        mapGambler[GAMBLER_NAME] = gambler.name
+        mapGambler[GAMBLER_GENDER] = gambler.gender
+        mapGambler[GAMBLER_PHOTO_URL] = gambler.photoUrl
+
+        node.updateChildren(mapGambler)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { showToast(it.message.toString()) }
     }
 }

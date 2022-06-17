@@ -23,8 +23,8 @@ const val NODE_GAMBLERS = "gamblers"
 const val CHILD_ID = "id"
 
 //Gambler model fields
-const val CHILD_NICKNAME = "nickname"
-const val CHILD_FAMILY = "family"
-const val CHILD_NAME = "name"
-const val CHILD_GENDER = "gender"
-const val CHILD_PHOTO_URL = "photoUrl"
+const val GAMBLER_NICKNAME = "nickname"
+const val GAMBLER_FAMILY = "family"
+const val GAMBLER_NAME = "name"
+const val GAMBLER_GENDER = "gender"
+const val GAMBLER_PHOTO_URL = "photoUrl"

@@ -1,73 +1,89 @@
 package com.example.tote_test.ui.main.profile
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.tote_test.R
+import com.example.tote_test.database.UID
 import com.example.tote_test.databinding.FragmentProfileBinding
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
+import com.example.tote_test.models.GamblerModel
+import com.example.tote_test.utils.APP_ACTIVITY
+import com.example.tote_test.utils.GAMBLER
+import com.example.tote_test.utils.checkProfile
+import com.example.tote_test.utils.showToast
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
+    private lateinit var binding: FragmentProfileBinding
+    private lateinit var viewModel: ProfileViewModel
 
-    private var _binding: FragmentProfileBinding? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        binding = FragmentProfileBinding.bind(view)
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+        setProfile()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val profileViewModel =
-            ViewModelProvider(this)[ProfileViewModel::class.java]
+        observeInProgress()
 
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
-        // Read from the database
-        /*dbRef.addValueEventListener(object: ValueEventListener() {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = snapshot.getValue<String>()
-                Toast.makeText(requireContext(), "Value is: " + value, Toast.LENGTH_LONG).show()
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Ошибка: " + error.toException(), Toast.LENGTH_LONG).show()
-            }
-
-        })*/
-
-        return binding.root
+        binding.profileSave.setOnClickListener {
+            saveProfile()
+        }
     }
 
-    private fun onChangeListener(dbRef: DatabaseReference) {
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Toast.makeText(requireContext(), "Сообщение: " + snapshot.value.toString(), Toast.LENGTH_LONG).show()
+    private fun setProfile() {
+        binding.profileInputNickname.setText(GAMBLER.nickname)
+        binding.profileInputFamily.setText(GAMBLER.family)
+        binding.profileInputName.setText(GAMBLER.name)
+        binding.profileGenderGroup.check(
+            if (GAMBLER.gender == "м") {
+                binding.profileMan.id
+            } else {
+                binding.profileWoman.id
             }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
+        )
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun saveProfile() {
+        val gambler = GamblerModel()
+        gambler.id = UID
+        gambler.nickname = binding.profileInputNickname.text.toString().trim()
+        gambler.family = binding.profileInputFamily.text.toString().trim()
+        gambler.name = binding.profileInputName.text.toString().trim()
+        val idCheckedButton = binding.profileGenderGroup.checkedRadioButtonId
+        gambler.gender = binding.profileGenderGroup.findViewById<RadioButton>(idCheckedButton).text.toString()
+        gambler.photoUrl = "qwerty"
+
+        if (checkChanges(gambler)) {
+            if (checkProfile(gambler)) {
+                viewModel.update(gambler) {
+                    showToast("Данные успешно сохранены")
+                    APP_ACTIVITY.navController.navigate(R.id.action_navProfile_to_navGamblers)
+                }
+            } else {
+                showToast(requireContext().getString(R.string.error_all_required))
+            }
+        } else {
+            APP_ACTIVITY.navController.navigate(R.id.action_navProfile_to_navGamblers)
+        }
+    }
+
+    private fun checkChanges(gambler: GamblerModel): Boolean {
+        return (gambler.nickname != GAMBLER.nickname
+                || gambler.family != GAMBLER.family
+                || gambler.name != GAMBLER.name
+                || gambler.gender != GAMBLER.gender
+                || gambler.photoUrl != GAMBLER.photoUrl)
+    }
+
+    private fun observeInProgress() = viewModel.inProgress.observe(viewLifecycleOwner) {
+        if (it) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.profileSave.isEnabled = false
+        } else {
+            binding.progressBar.visibility = View.INVISIBLE
+            binding.profileSave.isEnabled = true
+        }
     }
 }
